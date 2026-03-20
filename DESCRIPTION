@@ -1,0 +1,45 @@
+Package: infodengesubmunicipal
+Title: Ferramentas para Analise Epidemiologica Submunicipal
+Version: 0.0.0.9000
+Authors@R: 
+    person(
+      given = "Quemuel",
+      family = "Baruque",
+      email = "quemuelbaruque@gmail.com",
+      role = c("aut", "cre")
+    )
+Description: Reune funcoes para preparacao, classificacao e visualizacao
+    de dados epidemiologicos em escala submunicipal. O pacote inclui
+    utilitarios para normalizacao de nomes de bairros, completude de
+    series semanais, classificacao espacial de bairros em distritos e
+    geracao de indicadores e graficos usados no fluxo analitico do
+    projeto InfoDengue submunicipal.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports: 
+    cowplot,
+    dplyr,
+    foreign,
+    ggplot2,
+    ggpubr,
+    grid,
+    gtable,
+    magrittr,
+    patchwork,
+    purrr,
+    rlang,
+    sf,
+    stringr,
+    tidyr
+Suggests: 
+    fuzzyjoin,
+    mockery,
+    testthat (>= 3.0.0),
+    tibble,
+    withr
+Config/testthat/edition: 3
+Depends: 
+    R (>= 3.5)
+LazyData: true
