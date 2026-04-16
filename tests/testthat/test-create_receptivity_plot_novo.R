@@ -38,3 +38,22 @@ testthat::test_that("create_receptivity_plot_novo usa weeks_limit explicitamente
 
   testthat::expect_false(identical(ggplot2::ggplot_build(plot_a)$data, ggplot2::ggplot_build(plot_b)$data))
 })
+
+testthat::test_that("create_receptivity_plot_novo aceita semanas como factor", {
+  breaks <- c(202401, 202402, 202403, 202404)
+
+  dados <- tibble::tibble(
+    SE = factor(c(202401, 202402, 202403, 202404)),
+    tempmin = c(17, 19, 20, 21)
+  )
+
+  plot <- create_receptivity_plot_novo(
+    dados,
+    weeks_limit = factor("202403"),
+    breaks_1ano = breaks
+  )
+
+  dados_geom <- ggplot2::ggplot_build(plot)$data
+
+  testthat::expect_true(any(vapply(dados_geom, nrow, integer(1)) > 0))
+})

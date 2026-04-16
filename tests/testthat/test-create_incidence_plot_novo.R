@@ -67,3 +67,32 @@ testthat::test_that("create_incidence_plot_novo exige pop para converter inciden
     "pop"
   )
 })
+
+testthat::test_that("create_incidence_plot_novo aceita weeks_limit e ano_epi como factor", {
+  observed_data <- tibble::tibble(
+    ano_epi = factor(c(202401, 202402, 202403)),
+    total_Y = c(10, 20, 30),
+    nivel = c(1, 2, 3)
+  )
+
+  nowcast_data <- tibble::tibble(
+    ano_epi = factor(c(202401, 202402, 202403)),
+    Median = c(8, 18, 25),
+    LI = c(7, 15, 20),
+    LS = c(9, 19, 28),
+    type = c("Nowcasting", "Nowcasting", "Nowcasting")
+  )
+
+  plot <- create_incidence_plot_novo(
+    nowcast_data = nowcast_data,
+    observed_data = observed_data,
+    weeks_limit = factor("202403"),
+    breaks_1ano = c(202401, 202402, 202403),
+    limiar_epidemico = 72,
+    title_suffix = "Curva teste"
+  )
+
+  dados_geom <- ggplot2::ggplot_build(plot)$data
+
+  testthat::expect_true(any(vapply(dados_geom, nrow, integer(1)) > 0))
+})

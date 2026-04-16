@@ -39,3 +39,27 @@ testthat::test_that("generate_maps_novo reproduz o comportamento da antiga quand
   testthat::expect_equal(antigo[[1]]$labels$title, novo[[1]]$labels$title)
   testthat::expect_equal(antigo[[1]]$labels$subtitle, novo[[1]]$labels$subtitle)
 })
+
+testthat::test_that("generate_maps_novo aceita semanas e valores como factor", {
+  fixtures <- legacy_make_spatial_fixtures()
+
+  dados <- fixtures$sp_bairros |>
+    dplyr::slice(c(1, 2, 1, 2)) |>
+    dplyr::mutate(
+      sem_not = factor(c(202401, 202401, 202402, 202402)),
+      arbo = "dengue",
+      inc = factor(c(10, 20, 15, 30))
+    )
+
+  plots <- generate_maps_novo(
+    data = dados,
+    weeks_2_plot = factor(c(202401, 202402)),
+    value_col = "inc",
+    arbo = "dengue"
+  )
+
+  build <- ggplot2::ggplot_build(plots[[1]])
+
+  testthat::expect_true(nrow(build$data[[1]]) > 0)
+  testthat::expect_gt(length(unique(build$data[[1]]$fill)), 1)
+})
