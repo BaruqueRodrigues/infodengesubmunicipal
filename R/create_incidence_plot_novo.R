@@ -22,9 +22,17 @@ create_incidence_plot_novo <- function(nowcast_data, observed_data, weeks_limit,
                                        title_suffix = NULL, distrito_nome = NULL,
                                        ylim_max = NULL, include_zoom = FALSE,
                                        pop = NULL, convert_to_incidence = FALSE) {
+  weeks_limit <- as.numeric(as.character(weeks_limit))
+
   if (convert_to_incidence && is.null(pop)) {
     stop("`pop` deve ser informado quando `convert_to_incidence = TRUE`.")
   }
+
+  observed_data <- observed_data %>%
+    dplyr::mutate(ano_epi = as.numeric(as.character(.data$ano_epi)))
+
+  nowcast_data <- nowcast_data %>%
+    dplyr::mutate(ano_epi = as.numeric(as.character(.data$ano_epi)))
 
   if (convert_to_incidence) {
     observed_data <- observed_data %>%

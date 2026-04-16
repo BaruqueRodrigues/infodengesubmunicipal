@@ -21,6 +21,14 @@ generate_maps_novo <- function(data, weeks_2_plot, lim_range = NULL,
                                geom_col = "geometry", shape = NULL,
                                area = NULL, allocated_data = NULL,
                                total_data = NULL) {
+  weeks_2_plot <- as.numeric(as.character(weeks_2_plot))
+
+  data <- data %>%
+    dplyr::mutate(
+      sem_not = as.numeric(as.character(.data$sem_not)),
+      !!rlang::sym(value_col) := as.numeric(as.character(.data[[value_col]]))
+    )
+
   if (is.null(lim_range)) {
     filtered_data <- data %>%
       dplyr::filter(.data$sem_not %in% weeks_2_plot, .data$arbo == arbo)
@@ -34,8 +42,17 @@ generate_maps_novo <- function(data, weeks_2_plot, lim_range = NULL,
     week_data <- data %>%
       dplyr::filter(.data$sem_not == week, .data$arbo == arbo)
 
+    week_sf <- week_data %>%
+      sf::st_as_sf(sf_column_name = geom_col)
+
     percent_na <- NA_real_
     if (!is.null(allocated_data) && !is.null(total_data)) {
+      allocated_data <- allocated_data %>%
+        dplyr::mutate(sem_not = as.numeric(as.character(.data$sem_not)))
+
+      total_data <- total_data %>%
+        dplyr::mutate(sem_not = as.numeric(as.character(.data$sem_not)))
+
       n_alloc <- allocated_data %>%
         dplyr::filter(.data$sem_not == week, .data$arbo == arbo) %>%
         nrow()
@@ -49,7 +66,7 @@ generate_maps_novo <- function(data, weeks_2_plot, lim_range = NULL,
 
     p <- ggplot2::ggplot() +
       ggplot2::geom_sf(
-        data = sf::st_as_sf(week_data),
+        data = week_sf,
         ggplot2::aes(fill = !!rlang::sym(value_col), geometry = !!rlang::sym(geom_col))
       ) +
       ggplot2::scale_fill_distiller(palette = "Blues", direction = 1, limits = lim_range)

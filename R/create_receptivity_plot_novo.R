@@ -15,7 +15,13 @@
 create_receptivity_plot_novo <- function(api_data, weeks_limit, breaks_1ano,
                                          limiar_temp = 18, se_col = "SE",
                                          temp_col = "tempmin") {
+  weeks_limit <- as.numeric(as.character(weeks_limit))
   start_week <- calcular_inicio_janela_1ano(weeks_limit)
+
+  api_data <- api_data %>%
+    dplyr::mutate(
+      !!rlang::sym(se_col) := as.numeric(as.character(.data[[se_col]]))
+    )
 
   dados_plot <- api_data %>%
     dplyr::filter(

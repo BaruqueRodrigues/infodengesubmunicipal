@@ -17,6 +17,7 @@
 create_rt_plot_novo <- function(api_data, weeks_limit, title_suffix, breaks_1ano,
                                 facet_by = NULL, lwr = NULL, upr = NULL,
                                 sem_not = "sem_not") {
+  weeks_limit <- as.numeric(as.character(weeks_limit))
 
   required_cols <- c(sem_not, "Rt")
   missing_cols <- required_cols[!required_cols %in% names(api_data)]
@@ -39,7 +40,10 @@ create_rt_plot_novo <- function(api_data, weeks_limit, title_suffix, breaks_1ano
   }
 
   dados_filtrados <- api_data %>%
-    dplyr::filter(!!rlang::sym(sem_not) <= as.numeric(as.character(weeks_limit)))
+    dplyr::mutate(
+      !!rlang::sym(sem_not) := as.numeric(as.character(.data[[sem_not]]))
+    ) %>%
+    dplyr::filter(!!rlang::sym(sem_not) <= weeks_limit)
 
   plot_list <- list()
 
