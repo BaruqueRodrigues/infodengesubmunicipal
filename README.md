@@ -1,6 +1,6 @@
-# infodengesubmunicipal
+# infodengue_intramunicipal
 
-`infodengesubmunicipal` e um pacote em R para preparacao, classificacao e visualizacao de dados epidemiologicos em escala submunicipal. O pacote organiza funcoes do fluxo analitico do projeto InfoDengue submunicipal, incluindo:
+`infodengeintramunicipal` e um pacote em R para preparacao, classificacao e visualizacao de dados epidemiologicos em escala submunicipal. O pacote organiza funcoes do fluxo analitico do projeto InfoDengue submunicipal, incluindo:
 
 - leitura e filtragem de dados
 - normalizacao de nomes de bairros
