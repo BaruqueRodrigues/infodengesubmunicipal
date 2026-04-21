@@ -15,7 +15,7 @@
 
 ```r
 install.packages("remotes")
-remotes::install_github("BaruqueRodrigues/infodengesubmunicipal")
+remotes::install_github("BaruqueRodrigues/infodengue_intramunicipal")
 ```
 
 ### A partir do codigo local
